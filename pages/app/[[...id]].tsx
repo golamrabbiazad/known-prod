@@ -8,6 +8,7 @@ import User from '../../components/user'
 import FolderPane from '../../components/folderPane'
 import DocPane from '../../components/docPane'
 import NewFolderDialog from '../../components/newFolderDialog'
+import { useSession } from 'next-auth/client'
 
 const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs?: any[] }> = ({
   folders,
@@ -16,7 +17,9 @@ const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs
   activeDocs,
 }) => {
   const router = useRouter()
-  const [newFolderIsShown, setIsShown] = useState(false)
+  const [newFolderIsShown, setIsShown] = useState<boolean>(false)
+
+  const [session, loading] = useSession()
 
   const Page = () => {
     if (activeDoc) {
@@ -30,7 +33,7 @@ const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs
     return null
   }
 
-  if (false) {
+  if (!session && !loading) {
     return (
       <Dialog
         isShown
@@ -60,7 +63,7 @@ const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs
         </Pane>
       </Pane>
       <Pane marginLeft={300} width="calc(100vw - 300px)" height="100vh" overflowY="auto" position="relative">
-        <User user={{}} />
+        <User user={session.user} />
         <Page />
       </Pane>
       <NewFolderDialog close={() => setIsShown(false)} isShown={newFolderIsShown} onNewFolder={() => {}} />
@@ -83,4 +86,5 @@ App.defaultProps = {
  *
  * @param context
  */
+
 export default App

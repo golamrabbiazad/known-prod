@@ -1,22 +1,22 @@
 import { Db, MongoClient } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export interface PostFrontMatter {
+export type PostFrontMatter = {
   title: string
   summary: string
   publishedOn: string
 }
 
-export interface Post {
+export type Post = {
   source: string
   frontMatter: PostFrontMatter
 }
 
-export interface UserSession {
-  id: string
-  image: string
-  email: string
-  name: string
+export type UserSession = {
+  id?: string
+  name?: string
+  email?: string
+  image?: string
 }
 
 export interface Request extends NextApiRequest {
